@@ -3,6 +3,7 @@
 namespace Atournayre\Bundle\ConfirmationBundle\Provider;
 
 use Atournayre\Bundle\ConfirmationBundle\Contracts\ConfirmableInterface;
+use Atournayre\Bundle\ConfirmationBundle\Entity\ConfirmationCode;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
@@ -66,4 +67,6 @@ abstract class AbstractProvider
     abstract public function getEntityNotFoundMessage(): string;
 
     abstract public function getConfirmedMessage(): string;
+
+    abstract public function notify(ConfirmationCode $confirmationCode): string;
 }
