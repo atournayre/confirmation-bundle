@@ -23,10 +23,7 @@ class GenerateConfirmationService
 {
     private const DEFAULT_NUMBERS_OF_DIGITS_FOR_CODE = 6;
 
-    /**
-     * @var AbstractProvider
-     */
-    private $provider;
+    private AbstractProvider $provider;
 
     public function __construct(
         private readonly EntityManagerInterface $entityManager,
