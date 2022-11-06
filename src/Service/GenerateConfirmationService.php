@@ -82,7 +82,7 @@ class GenerateConfirmationService
     /**
      * @throws ConfirmationCodeException
      */
-    private function verifyIfEntityImplementsConfirmableInterface(object $entity)
+    private function verifyIfEntityImplementsConfirmableInterface(object $entity): void
     {
         $reflectionClass = new ReflectionClass($entity);
         $implementsInterface = $reflectionClass->implementsInterface(ConfirmableInterface::class);
