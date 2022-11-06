@@ -12,8 +12,7 @@ class LoaderConfig
 
     public function __construct()
     {
-        $configFile = \dirname(__DIR__) . '/../config/packages/atournayre_confirmation.yaml';
-//        $configFile = \dirname(__DIR__) . '/../../../config/packages/atournayre_confirmation.yaml';
+        $configFile = \dirname(__DIR__) . '/../../../config/packages/atournayre_confirmation.yaml';
         if (!file_exists($configFile)) {
             throw new \LogicException(sprintf('The file "%s" is missing.', $configFile));
         }
