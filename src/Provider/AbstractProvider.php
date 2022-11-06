@@ -23,17 +23,6 @@ abstract class AbstractProvider
     }
 
     /**
-     * @throws SyntaxError
-     * @throws RuntimeError
-     * @throws LoaderError
-     */
-    public function renderForMessage(): string
-    {
-        $render = $this->environment->render('@AtournayreConfirmation/message.html.twig');
-        return new Response($render);
-    }
-
-    /**
      * @param FormInterface $form
      *
      * @return Response
