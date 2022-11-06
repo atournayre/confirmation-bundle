@@ -18,7 +18,6 @@ class ConfirmationFormType extends AbstractType
                 'submit',
                 SubmitType::class,
                 [
-                    //TODO Ajouter traduction
                     'label' => 'Confirm',
                 ]
             )

@@ -2,7 +2,6 @@
 
 namespace Atournayre\Bundle\ConfirmationBundle\Traits;
 
-use Doctrine\DBAL\Types\BooleanType;
 use Doctrine\ORM\Mapping as ORM;
 
 trait ConfirmableTrait
