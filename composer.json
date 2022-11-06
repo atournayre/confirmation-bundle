@@ -1,0 +1,24 @@
+{
+    "description": "Confirmation bundle",
+    "name": "atournayre/confirmation-bundle",
+    "type": "symfony-bundle",
+    "minimum-stability": "stable",
+    "require": {
+        "php": ">=7.2",
+        "atournayre/helpers": "^1.0",
+        "easycorp/easyadmin-bundle": "^4.2"
+    },
+    "require-dev": {
+        "symfony/phpunit-bridge": "^5.4"
+    },
+    "config": {
+        "preferred-install": "dist",
+        "sort-packages": true
+    },
+    "autoload": {
+        "psr-4": { "Atournayre\\Bundle\\ConfirmationBundle\\": "src/" }
+    },
+    "autoload-dev": {
+        "psr-4": { "Atournayre\\Bundle\\ConfirmationBundle\\Tests\\": "tests/" }
+    }
+}

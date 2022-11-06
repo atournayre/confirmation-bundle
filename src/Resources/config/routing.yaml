@@ -1,0 +1,9 @@
+app_confirmation_code_without_code:
+    path: /confirmation-code/{mapping}/{id}
+    defaults:
+        _controller: Atournayre\Bundle\ConfirmationBundle\Controller\ConfirmationCodeWithoutCodeController::__invoke
+
+app_confirmation_code_with_code:
+    path: /confirmation-code/{mapping}/{id}/{code}
+    defaults:
+        _controller: Atournayre\Bundle\ConfirmationBundle\Controller\ConfirmationCodeWithCodeController::__invoke

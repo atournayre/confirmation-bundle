@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="{{ htmlLocale|default('en') }}" dir="{{ textDirection|default('ltr') }}" data-turbo="false">
+<head>
+    {% block head_metas %}
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="robots" content="noindex, nofollow, noarchive, nosnippet, noodp, noimageindex, notranslate, nocache" />
+        <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    {% endblock head_metas %}
+
+    {% set page_title_block_output %}{% block page_title %}{{ block('content_title') }}{% endblock %}{% endset %}
+    <title>{{ page_title_block_output|striptags|raw }}</title>
+
+    {% block head_stylesheets %}
+{#        <link rel="stylesheet" href="{{ asset('app.css', ea.assets.defaultAssetPackageName) }}">#}
+    {% endblock %}
+
+    {% block head_favicon %}
+{#        <link rel="shortcut icon" href="{{ asset(ea.dashboardFaviconPath) }}">#}
+    {% endblock %}
+</head>
+
+{% block body %}
+    <body
+        id="{% block body_id %}{% endblock %}"
+        class="{% block body_class %}{% endblock %}"
+    >
+
+    {% block wrapper_wrapper %}
+{#        {% block flash_messages %}#}
+{#            {{ include(ea.templatePath('flash_messages')) }}#}
+{#        {% endblock flash_messages %}#}
+
+        <div class="wrapper">
+                {% block content %}
+                {% endblock content %}
+        </div>
+    {% endblock wrapper_wrapper %}
+
+    </body>
+{% endblock body %}
+</html>
