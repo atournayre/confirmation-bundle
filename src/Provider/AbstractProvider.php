@@ -53,6 +53,19 @@ abstract class AbstractProvider
         ]);
     }
 
+    /**
+     * @throws SyntaxError
+     * @throws RuntimeError
+     * @throws LoaderError
+     */
+    public function renderForTextMessage(
+        ConfirmationCode $confirmationCode,
+    ): string {
+        return $this->environment->render('@AtournayreConfirmation/text_message.html.twig', [
+            'confirmationCode' => $confirmationCode,
+        ]);
+    }
+
     public function updateEntity(ConfirmableInterface $entity): ConfirmableInterface
     {
         $entity->setAsConfirmed();
