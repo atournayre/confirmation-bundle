@@ -57,5 +57,5 @@ abstract class AbstractProvider
 
     abstract public function getConfirmedMessage(): string;
 
-    abstract public function notify(ConfirmationCode $confirmationCode): string;
+    abstract public function notify(ConfirmationCode $confirmationCode): void;
 }
