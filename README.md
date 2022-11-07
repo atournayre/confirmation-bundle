@@ -53,6 +53,9 @@ services:
   Atournayre\Bundle\ConfirmationBundle\Config\LoaderConfig:
     class: Atournayre\Bundle\ConfirmationBundle\Config\LoaderConfig
 
+  Atournayre\Bundle\ConfirmationBundle\Service\GenerateConfirmationService:
+    class: Atournayre\Bundle\ConfirmationBundle\Service\GenerateConfirmationService
+
   App\Provider\YourCustomProvider:
     class: App\Provider\YourCustomProvider
     # Provider needs to be public
