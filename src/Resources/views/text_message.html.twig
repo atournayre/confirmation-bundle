@@ -1,0 +1,3 @@
+{# @var confirmationCode \Atournayre\Bundle\ConfirmationBundle\Entity\ConfirmationCode #}
+{% set confirmationUrl = url('app_confirmation_code_with_code', {id: confirmationCode.id, mapping: confirmationCode.type, code: confirmationCode.code}) %}
+To confirm, please use this link: {{ confirmationUrl }}
