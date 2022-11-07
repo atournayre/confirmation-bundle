@@ -1,0 +1,11 @@
+{# @var confirmationCode \Atournayre\Bundle\ConfirmationBundle\Entity\ConfirmationCode #}
+Hi,<br />
+<br />
+We need your confirmation.<br />
+<br />
+Your confirmation code is <strong>{{ confirmationCode.code }}</strong>.<br />
+<br />
+{% set confirmationUrl = url('app_confirmation_code_without_code', {id: confirmationCode.id, mapping: confirmationCode.type}) %}
+Please confirm using this link : <a href="{{ confirmationUrl }}">{{ confirmationUrl }}</a><br />
+<br />
+Best regards.
