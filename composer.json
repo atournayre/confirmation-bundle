@@ -8,17 +8,17 @@
         "atournayre/helpers": "^1.0",
         "doctrine/doctrine-bundle": "^2.7",
         "doctrine/orm": "^2.11",
-        "symfony/config": "^5.4",
-        "symfony/dependency-injection": "^5.4",
-        "symfony/form": "^5.4",
-        "symfony/http-foundation": "^5.4",
-        "symfony/routing": "^5.4",
-        "symfony/uid": "^5.4",
-        "symfony/yaml": "^5.4",
+        "symfony/config": "^5.4 || ^6.0",
+        "symfony/dependency-injection": "^5.4 || ^6.0",
+        "symfony/form": "^5.4 || ^6.0",
+        "symfony/http-foundation": "^5.4 || ^6.0",
+        "symfony/routing": "^5.4 || ^6.0",
+        "symfony/uid": "^5.4 || ^6.0",
+        "symfony/yaml": "^5.4 || ^6.0",
         "twig/twig": "^3.4"
     },
     "require-dev": {
-        "symfony/phpunit-bridge": "^5.4"
+        "symfony/phpunit-bridge": "^5.4 || ^6.0"
     },
     "config": {
         "preferred-install": "dist",
