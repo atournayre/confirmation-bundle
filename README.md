@@ -82,12 +82,14 @@ For each entity/mapping, you must :
 
 
 ### Generate confirmation code
-When you want to generate a confirmation code, just use `Atournayre\Bundle\ConfirmationBundle\Service`, call the `__invoke()` method.
+When you want to generate a confirmation code, just use `Atournayre\Bundle\ConfirmationBundle\Service\GenerateConfirmationService`, call the `__invoke()` method.
 
 Following actions will be performed :
 1. A confirmation code will be generated
 2. Entity will be tagged as "unconfirmed"
 3. The recipient will be notified.
+
+Tip : If you use both id and uuid in your entity, you can specify the id to use as 3rd parameter.
 
 As code are required for verification purpose, the service only send it and don't return it.
 

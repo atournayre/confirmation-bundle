@@ -35,14 +35,14 @@ class GenerateConfirmationService
     /**
      * @throws ConfirmationCodeException
      */
-    public function __invoke(Uuid $targetId, string $type): void
+    public function __invoke(Uuid $targetId, string $type, int $realTargetId = null): void
     {
         try {
             $confirmationCodeDTO = new ConfirmationCodeDTO($targetId, $type);
             $this->provider = $this->getProvider($confirmationCodeDTO);
 
             $confirmationCode = $this->createConfirmationCode($type, $targetId);
-            $this->updateTargetedEntity($confirmationCode);
+            $this->updateTargetedEntity($confirmationCode, $realTargetId);
             $this->entityManager->flush();
             $this->provider->notify($confirmationCode);
         } catch (NotFoundExceptionInterface|ContainerExceptionInterface|Exception $exception) {
@@ -66,12 +66,12 @@ class GenerateConfirmationService
      * @throws NotFoundExceptionInterface
      * @throws ORMException
      */
-    private function updateTargetedEntity(ConfirmationCode $confirmationCode): void
+    private function updateTargetedEntity(ConfirmationCode $confirmationCode, int $realTargetId = null): void
     {
         $targetId = $confirmationCode->getTargetId();
         $entity = $this->provider->getEntity($targetId);
         $this->verifyIfEntityImplementsConfirmableInterface($entity);
-        $entity = $this->entityManager->getReference(get_class($entity), $targetId);
+        $entity = $this->entityManager->getReference(get_class($entity), $realTargetId ?? $targetId);
         $entity->setAsNotConfirmed();
         $this->entityManager->persist($entity);
     }
