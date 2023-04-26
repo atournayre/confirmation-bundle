@@ -6,7 +6,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 trait ConfirmableTrait
 {
-    #[ORM\Column(type: 'boolean', length: 15, nullable: true)]
+    #[ORM\Column(type: 'boolean', nullable: true)]
     private ?bool $confirmed = null;
 
     public function isConfirmed(): bool
