@@ -3,29 +3,26 @@
 namespace Atournayre\Bundle\ConfirmationBundle\Exception;
 
 use Atournayre\Bundle\ConfirmationBundle\DTO\ConfirmationCodeDTO;
-use Atournayre\Helper\Exception\TypedException;
 
-class ConfirmationCodeUserException extends TypedException
+class ConfirmationCodeUserException extends \Exception
 {
-    public static function noConfirmationCode(ConfirmationCodeDTO $confirmationCodeDTO): TypedException
+    public static function noConfirmationCode(ConfirmationCodeDTO $confirmationCodeDTO): \Exception
     {
-        $throwable = new static(
+        return new static(
             sprintf(
                 'The "%s" confirmation code is not valid.',
                 $confirmationCodeDTO->code
             )
         );
-        return parent::createAsError($throwable);
     }
 
-    public static function entityNotFound(string $message): TypedException
+    public static function entityNotFound(string $message): \Exception
     {
         return new static($message);
     }
 
-    public static function doNotExistOrInvalid(): TypedException
+    public static function doNotExistOrInvalid(?\Exception $exception = null): \Exception
     {
-        $throwable = new static('Confirmation request impossible due to invalid or not existing code.');
-        return parent::createAsWarning($throwable);
+        return new static('Confirmation request impossible due to invalid or not existing code.', $exception?->getCode(), $exception);
     }
 }

@@ -10,26 +10,40 @@ use Atournayre\Bundle\ConfirmationBundle\Exception\ConfirmationCodeUserException
 use Atournayre\Bundle\ConfirmationBundle\Provider\AbstractProvider;
 use Atournayre\Bundle\ConfirmationBundle\Repository\ConfirmationCodeRepository;
 use Atournayre\Bundle\ConfirmationBundle\Service\ConfirmationCodeService;
-use Atournayre\Helper\Controller\Controller;
-use Atournayre\Helper\Exception\TypedException;
-use Atournayre\Helper\Service\FlashService;
 use Exception;
+use LogicException;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
 use Psr\Log\LoggerInterface;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\DependencyInjection\Exception\ServiceNotFoundException;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Uid\Uuid;
+use Twig\Environment;
 
-class ConfirmationCodeController extends Controller
+class ConfirmationCodeController extends AbstractController
 {
     public function __construct(
-        LoggerInterface                               $logger,
-        FlashService                                  $flashService,
+        protected readonly LoggerInterface            $logger,
         private readonly LoaderConfig                 $loaderConfig,
         protected readonly ConfirmationCodeService    $confirmationCodeService,
         protected readonly ConfirmationCodeRepository $confirmationCodeRepository,
-    ) {
-        parent::__construct($logger, $flashService);
+        private readonly Environment                  $twig,
+    )
+    {
+    }
+
+    protected function renderError(string $errorMessage): Response
+    {
+        $template = 'error/index.html.twig';
+
+        if (!$this->twig->getLoader()->exists($template)) {
+            throw new LogicException(sprintf('Template "%s" was not found. Create it to use %s.', $template, __METHOD__));
+        }
+
+        return $this->render($template, [
+            'message' => $errorMessage,
+        ]);
     }
 
     /**
@@ -48,9 +62,8 @@ class ConfirmationCodeController extends Controller
 
     /**
      * @param string $id
-     *
      * @return ConfirmationCode
-     * @throws TypedException
+     * @throws Exception
      */
     protected function getConfirmationCode(string $id): ConfirmationCode
     {

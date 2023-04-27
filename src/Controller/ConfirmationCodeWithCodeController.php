@@ -3,7 +3,6 @@
 namespace Atournayre\Bundle\ConfirmationBundle\Controller;
 
 use Atournayre\Bundle\ConfirmationBundle\DTO\ConfirmationCodeDTO;
-use Atournayre\Helper\Exception\TypedException;
 use Exception;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
@@ -37,18 +36,14 @@ class ConfirmationCodeWithCodeController extends ConfirmationCodeController
 
             ($this->confirmationCodeService)($formData);
 
-            $this->messageSucces($provider->getConfirmedMessage());
+            $this->addFlash('success', $provider->getConfirmedMessage());
 
             $entity = $provider->getEntity($confirmationCode->getTargetId());
             return $provider->redirectAfterConfirmation($entity);
-        } catch (TypedException $exception) {
-            $this->loggerException($exception);
-            $this->messageDepuisException($exception);
-            return $this->renderErreur($exception->getMessage());
         } catch (Exception $exception) {
-            $this->loggerException($exception);
-            $this->messageErreur($messageErreur = 'Oops an error occurs.');
-            return $this->renderErreur($messageErreur);
+            $this->logger->error($exception->getMessage(), $exception->getTrace());
+            $this->addFlash('danger', $messageErreur = 'Oops an error occurs.');
+            return $this->renderError($messageErreur);
         }
     }
 }
