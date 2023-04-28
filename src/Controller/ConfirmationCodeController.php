@@ -23,7 +23,7 @@ use Symfony\Component\Uid\Uuid;
 
 class ConfirmationCodeController extends AbstractController
 {
-    protected const ERROR_CONTROLLER_ACTION = ErrorController::class . '::__invoke';
+    protected const ERROR_CONTROLLER_ACTION = ErrorController::class;
 
     public function __construct(
         protected readonly LoggerInterface            $logger,
