@@ -41,8 +41,7 @@ atournayre_confirmation:
 ```yaml
 # config/services.yaml
 services:
-  Atournayre\Helper\Service\FlashService:
-    class: Atournayre\Helper\Service\FlashService
+  Psr\Container\ContainerInterface: '@service_container'
 
   Atournayre\Bundle\ConfirmationBundle\Service\ConfirmationCodeService:
     class: Atournayre\Bundle\ConfirmationBundle\Service\ConfirmationCodeService
