@@ -18,31 +18,26 @@ use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\DependencyInjection\Exception\ServiceNotFoundException;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Controller\ErrorController;
 use Symfony\Component\Uid\Uuid;
-use Twig\Environment;
 
 class ConfirmationCodeController extends AbstractController
 {
+    protected const ERROR_CONTROLLER_ACTION = ErrorController::class . '::__invoke';
+
     public function __construct(
         protected readonly LoggerInterface            $logger,
         private readonly LoaderConfig                 $loaderConfig,
         protected readonly ConfirmationCodeService    $confirmationCodeService,
         protected readonly ConfirmationCodeRepository $confirmationCodeRepository,
-        private readonly Environment                  $twig,
     )
     {
     }
 
     protected function renderError(string $errorMessage): Response
     {
-        $template = 'error/index.html.twig';
-
-        if (!$this->twig->getLoader()->exists($template)) {
-            throw new LogicException(sprintf('Template "%s" was not found. Create it to use %s.', $template, __METHOD__));
-        }
-
-        return $this->render($template, [
-            'message' => $errorMessage,
+        return $this->forward(self::ERROR_CONTROLLER_ACTION, [
+            'exception' => new Exception($errorMessage),
         ]);
     }
 
