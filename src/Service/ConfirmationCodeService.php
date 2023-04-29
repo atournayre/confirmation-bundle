@@ -9,7 +9,7 @@ use Atournayre\Bundle\ConfirmationBundle\Exception\ConfirmationCodeUserException
 use Atournayre\Bundle\ConfirmationBundle\Provider\AbstractProvider;
 use Atournayre\Bundle\ConfirmationBundle\Repository\ConfirmationCodeRepository;
 use Doctrine\ORM\EntityManagerInterface;
-use Psr\Container\ContainerInterface;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\DependencyInjection\Exception\ServiceNotFoundException;
 
 class ConfirmationCodeService
