@@ -8,20 +8,29 @@ use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Twig\Environment;
+use Twig\Error\LoaderError;
+use Twig\Error\RuntimeError;
+use Twig\Error\SyntaxError;
 
 class ConfirmationCodeWithCodeController extends ConfirmationCodeController
 {
     /**
+     * @param Environment $environment
      * @param Request $request
-     * @param string  $mapping
-     * @param string  $id
-     * @param string  $code
+     * @param string $mapping
+     * @param string $id
+     * @param string $code
      *
      * @return Response
      * @throws ContainerExceptionInterface
      * @throws NotFoundExceptionInterface
+     * @throws LoaderError
+     * @throws RuntimeError
+     * @throws SyntaxError
      */
     public function __invoke(
+        Environment $environment,
         Request $request,
         string  $mapping,
         string  $id,
@@ -42,8 +51,11 @@ class ConfirmationCodeWithCodeController extends ConfirmationCodeController
             return $provider->redirectAfterConfirmation($entity);
         } catch (Exception $exception) {
             $this->logger->error($exception->getMessage(), $exception->getTrace());
-            $this->addFlash('danger', $messageErreur = 'Oops an error occurs.');
-            return $this->renderError($messageErreur);
+            $this->addFlash('danger', $errorMessage = 'Oops an error occurs.');
+            $render = $environment->render('@AtournayreConfirmation/error.html.twig', [
+                'message' => $errorMessage,
+            ]);
+            return new Response($render);
         }
     }
 }

@@ -17,14 +17,10 @@ use Psr\Container\NotFoundExceptionInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\DependencyInjection\Exception\ServiceNotFoundException;
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpKernel\Controller\ErrorController;
 use Symfony\Component\Uid\Uuid;
 
 class ConfirmationCodeController extends AbstractController
 {
-    protected const ERROR_CONTROLLER_ACTION = ErrorController::class;
-
     public function __construct(
         protected readonly LoggerInterface            $logger,
         private readonly LoaderConfig                 $loaderConfig,
@@ -32,13 +28,6 @@ class ConfirmationCodeController extends AbstractController
         protected readonly ConfirmationCodeRepository $confirmationCodeRepository,
     )
     {
-    }
-
-    protected function renderError(string $errorMessage): Response
-    {
-        return $this->forward(self::ERROR_CONTROLLER_ACTION, [
-            'exception' => new Exception($errorMessage),
-        ]);
     }
 
     /**
