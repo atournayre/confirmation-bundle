@@ -8,7 +8,6 @@
 
         <service id="Atournayre\Bundle\ConfirmationBundle\Controller\ConfirmationCodeWithoutCodeController" public="true" autowire="true">
             <argument type="service" id="logger" />
-            <argument type="service" id="Atournayre\Helper\Service\FlashService" />
             <argument type="service" id="Atournayre\Bundle\ConfirmationBundle\Config\LoaderConfig" />
             <argument type="service" id="Atournayre\Bundle\ConfirmationBundle\Service\ConfirmationCodeService" />
             <argument type="service" id="Atournayre\Bundle\ConfirmationBundle\Repository\ConfirmationCodeRepository" />
@@ -16,7 +15,6 @@
 
         <service id="Atournayre\Bundle\ConfirmationBundle\Controller\ConfirmationCodeWithCodeController" public="true" autowire="true">
             <argument type="service" id="logger" />
-            <argument type="service" id="Atournayre\Helper\Service\FlashService" />
             <argument type="service" id="Atournayre\Bundle\ConfirmationBundle\Config\LoaderConfig" />
             <argument type="service" id="Atournayre\Bundle\ConfirmationBundle\Service\ConfirmationCodeService" />
             <argument type="service" id="Atournayre\Bundle\ConfirmationBundle\Repository\ConfirmationCodeRepository" />

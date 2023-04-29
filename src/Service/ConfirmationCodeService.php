@@ -8,7 +8,6 @@ use Atournayre\Bundle\ConfirmationBundle\Exception\ConfirmationCodeException;
 use Atournayre\Bundle\ConfirmationBundle\Exception\ConfirmationCodeUserException;
 use Atournayre\Bundle\ConfirmationBundle\Provider\AbstractProvider;
 use Atournayre\Bundle\ConfirmationBundle\Repository\ConfirmationCodeRepository;
-use Atournayre\Helper\Exception\TypedException;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\DependencyInjection\Exception\ServiceNotFoundException;
@@ -25,12 +24,8 @@ class ConfirmationCodeService
 
     /**
      * @param ConfirmationCodeDTO $confirmationCodeDTO
-     *
      * @return void
      * @throws ConfirmationCodeException
-     * @throws ConfirmationCodeUserException
-     * @throws ServiceNotFoundException
-     * @throws TypedException
      */
     public function __invoke(
         ConfirmationCodeDTO $confirmationCodeDTO,

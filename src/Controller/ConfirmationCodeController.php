@@ -10,26 +10,30 @@ use Atournayre\Bundle\ConfirmationBundle\Exception\ConfirmationCodeUserException
 use Atournayre\Bundle\ConfirmationBundle\Provider\AbstractProvider;
 use Atournayre\Bundle\ConfirmationBundle\Repository\ConfirmationCodeRepository;
 use Atournayre\Bundle\ConfirmationBundle\Service\ConfirmationCodeService;
-use Atournayre\Helper\Controller\Controller;
-use Atournayre\Helper\Exception\TypedException;
-use Atournayre\Helper\Service\FlashService;
 use Exception;
+use LogicException;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
 use Psr\Log\LoggerInterface;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\DependencyInjection\Attribute\TaggedIterator;
 use Symfony\Component\DependencyInjection\Exception\ServiceNotFoundException;
 use Symfony\Component\Uid\Uuid;
+use Symfony\Component\DependencyInjection\Argument\RewindableGenerator;
 
-class ConfirmationCodeController extends Controller
+class ConfirmationCodeController extends AbstractController
 {
+    private RewindableGenerator $providers;
+
     public function __construct(
-        LoggerInterface                               $logger,
-        FlashService                                  $flashService,
+        protected readonly LoggerInterface            $logger,
         private readonly LoaderConfig                 $loaderConfig,
         protected readonly ConfirmationCodeService    $confirmationCodeService,
         protected readonly ConfirmationCodeRepository $confirmationCodeRepository,
-    ) {
-        parent::__construct($logger, $flashService);
+        #[TaggedIterator('atournayre.confirmation_bundle.tag.provider')] RewindableGenerator $providers,
+    )
+    {
+        $this->providers = $providers;
     }
 
     /**
@@ -41,16 +45,26 @@ class ConfirmationCodeController extends Controller
     {
         $providerClassName = $this->loaderConfig->getProvider($confirmationCodeDTO->type);
 
-        if ($this->container->has($providerClassName)) return $this->container->get($providerClassName);
+        try {
+            $providers = array_filter(
+                iterator_to_array($this->providers->getIterator()),
+                fn($provider) => get_class($provider) === $providerClassName
+            );
+        } catch (Exception $exception) {
+            throw new ServiceNotFoundException($providerClassName, null, $exception);
+        }
+
+        if (count($providers) === 1) {
+            return current($providers);
+        }
 
         throw new ServiceNotFoundException($providerClassName);
     }
 
     /**
      * @param string $id
-     *
      * @return ConfirmationCode
-     * @throws TypedException
+     * @throws Exception
      */
     protected function getConfirmationCode(string $id): ConfirmationCode
     {
