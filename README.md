@@ -41,10 +41,21 @@ atournayre_confirmation:
 ```yaml
 # config/services.yaml
 services:
-  Psr\Container\ContainerInterface: '@service_container'
+  _instanceof:
+    Atournayre\Bundle\ConfirmationBundle\Provider\AbstractProvider:
+      tags: ['atournayre.confirmation_bundle.tag.provider']
+
+  Atournayre\Bundle\ConfirmationBundle\Controller\:
+    resource: ../vendor/atournayre/confirmation-bundle/src/Controller
+    public: true
+    tags: ['controller.service_arguments']
+
+  Symfony\Component\DependencyInjection\ContainerInterface: '@service_container'
 
   Atournayre\Bundle\ConfirmationBundle\Service\ConfirmationCodeService:
     class: Atournayre\Bundle\ConfirmationBundle\Service\ConfirmationCodeService
+    arguments:
+      $container: '@service_container'
 
   Atournayre\Bundle\ConfirmationBundle\Repository\ConfirmationCodeRepository:
     class: Atournayre\Bundle\ConfirmationBundle\Repository\ConfirmationCodeRepository
@@ -55,9 +66,9 @@ services:
   Atournayre\Bundle\ConfirmationBundle\Service\GenerateConfirmationService:
     class: Atournayre\Bundle\ConfirmationBundle\Service\GenerateConfirmationService
 
+  # Providers needs to be public
   App\Provider\YourCustomProvider:
     class: App\Provider\YourCustomProvider
-    # Provider needs to be public
     public: true
 ```
 
@@ -102,8 +113,6 @@ Using `app_confirmation_code_with_code` route, the user only needs to follow the
 
 #### Form
 Using `app_confirmation_code` route, the user needs to fill-in a form with the code provided to him (via notification) so the entity could be validated.
-
-> NOTE : Route generator will be added soon.
 
 ## Templating
 It is possible to override any template thanks to Symfony.
