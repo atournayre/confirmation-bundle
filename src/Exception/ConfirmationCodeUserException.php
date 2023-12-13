@@ -23,6 +23,10 @@ class ConfirmationCodeUserException extends \Exception
 
     public static function doNotExistOrInvalid(?\Exception $exception = null): \Exception
     {
-        return new static('Confirmation request impossible due to invalid or not existing code.', $exception?->getCode(), $exception);
+        return new static(
+            'Confirmation request impossible due to invalid or not existing code.',
+            $exception?->getCode() ?? 0,
+            $exception
+        );
     }
 }
